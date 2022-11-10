@@ -7,11 +7,10 @@
 ATeacherCharacter::ATeacherCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
-	SpringArm-> SetupAttachment(GetRootComponent());
-	SpringArm->bUsePawnControlRotation=true;
-	SpringArm->SocketOffset=FVector(0.0f,100.0f,80.0f);
-
+	
+	PointerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PointerMesh"));
+	PointerMesh-> AttachToComponent(GetMesh(),FAttachmentTransformRules::KeepRelativeTransform,"RightHandSocket");
+	
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->AttachToComponent(GetMesh(),FAttachmentTransformRules::KeepRelativeTransform,"HeadSocket");
 	
@@ -27,6 +26,29 @@ void ATeacherCharacter::BeginPlay()
 void ATeacherCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (bIndexing)
+	{
+		FVector CameraLocation;
+		FRotator CameraRotation;
+		
+		Controller->GetPlayerViewPoint(CameraLocation,CameraRotation);
+
+		
+		UE_LOG(LogTemp,Warning,TEXT("Tracing"));
+		const FTransform SocketTransform=PointerMesh->GetSocketTransform("PointerSocket");
+		const FVector StartTrace=CameraLocation;//SocketTransform.GetLocation();
+		const FVector TraceDirection=CameraRotation.Vector();//SocketTransform.GetRotation().GetForwardVector();
+		const FVector EndTrace=StartTrace+TraceDirection*PointerTraceLenght;
+
+		FCollisionQueryParams CollisionParams;
+		CollisionParams.AddIgnoredActor(GetOwner());
+
+		FHitResult HitResult;
+		GetWorld()->LineTraceSingleByChannel(HitResult,StartTrace,EndTrace,ECollisionChannel::ECC_Visibility,CollisionParams);
+		
+		DrawDebugLine(GetWorld(),SocketTransform.GetLocation(),HitResult.ImpactPoint,FColor::Red,false,0,0,2.0f);
+		
+	}
 
 }
 
@@ -42,8 +64,8 @@ void ATeacherCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("Sprint", EInputEvent::IE_Pressed, this, &ATeacherCharacter::OnStartRunning);
 	PlayerInputComponent->BindAction("Sprint", EInputEvent::IE_Released, this, &ATeacherCharacter::OnStopRunning);
 
-	PlayerInputComponent->BindAction("IndexAnimation",EInputEvent::IE_Pressed, this, &ATeacherCharacter::Index);
-	PlayerInputComponent->BindAction("IndexAnimation",EInputEvent::IE_Released, this, &ATeacherCharacter::Index);
+	PlayerInputComponent->BindAction("IndexAnimation",EInputEvent::IE_Pressed, this, &ATeacherCharacter::IndexStart);
+	PlayerInputComponent->BindAction("IndexAnimation",EInputEvent::IE_Released, this, &ATeacherCharacter::IndexEnd);
 }
 
 void ATeacherCharacter::MoveForward(float Amount)
@@ -68,10 +90,17 @@ void ATeacherCharacter::OnStopRunning()
 	GetCharacterMovement()->MaxWalkSpeed=600;
 }
 
-void ATeacherCharacter::Index()
+void ATeacherCharacter::IndexStart()
 {
-	PlayAnimMontage(AnimMontage);
+	bIndexing=true;
 	
-	UE_LOG(LogTemp,Warning,TEXT("Pointing"));
+	
 }
+
+void ATeacherCharacter::IndexEnd()
+{
+	bIndexing=false;
+}
+
+
 

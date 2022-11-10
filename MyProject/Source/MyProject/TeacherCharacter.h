@@ -26,7 +26,7 @@ public:
 	UCameraComponent *CameraComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Settings")
-	USpringArmComponent *SpringArm;
+	UStaticMeshComponent *PointerMesh;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Settings")
 	UAnimMontage *AnimMontage;
@@ -38,7 +38,14 @@ public:
 	void OnStartRunning();
 	void OnStopRunning();
 
-	void Index();
+	void IndexStart();
+	void IndexEnd();
+	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Settings")
 	bool bIndexing=false;
+
+	UFUNCTION(BlueprintCallable)
+	bool GetbIndexing(){return bIndexing;}
+
+	float PointerTraceLenght=15000.0f;
 };

@@ -14,8 +14,16 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #define MYPROJECT_TeacherCharacter_generated_h
 
 #define FID_MyProject_Source_MyProject_TeacherCharacter_h_16_SPARSE_DATA
-#define FID_MyProject_Source_MyProject_TeacherCharacter_h_16_RPC_WRAPPERS
-#define FID_MyProject_Source_MyProject_TeacherCharacter_h_16_RPC_WRAPPERS_NO_PURE_DECLS
+#define FID_MyProject_Source_MyProject_TeacherCharacter_h_16_RPC_WRAPPERS \
+ \
+	DECLARE_FUNCTION(execGetbIndexing);
+
+
+#define FID_MyProject_Source_MyProject_TeacherCharacter_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
+ \
+	DECLARE_FUNCTION(execGetbIndexing);
+
+
 #define FID_MyProject_Source_MyProject_TeacherCharacter_h_16_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesATeacherCharacter(); \
