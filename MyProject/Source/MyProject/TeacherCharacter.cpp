@@ -34,7 +34,7 @@ void ATeacherCharacter::Tick(float DeltaTime)
 		Controller->GetPlayerViewPoint(CameraLocation,CameraRotation);
 
 		
-		UE_LOG(LogTemp,Warning,TEXT("Tracing"));
+		//UE_LOG(LogTemp,Warning,TEXT("Tracing"));
 		const FTransform SocketTransform=PointerMesh->GetSocketTransform("PointerSocket");
 		const FVector StartTrace=CameraLocation;//SocketTransform.GetLocation();
 		const FVector TraceDirection=CameraRotation.Vector();//SocketTransform.GetRotation().GetForwardVector();
@@ -47,6 +47,7 @@ void ATeacherCharacter::Tick(float DeltaTime)
 		GetWorld()->LineTraceSingleByChannel(HitResult,StartTrace,EndTrace,ECollisionChannel::ECC_Visibility,CollisionParams);
 		
 		DrawDebugLine(GetWorld(),SocketTransform.GetLocation(),HitResult.ImpactPoint,FColor::Red,false,0,0,2.0f);
+		DrawDebugSphere(GetWorld(),HitResult.Location,3,10,FColor::Red,false,0,0,0.3f);
 		
 	}
 
@@ -66,6 +67,8 @@ void ATeacherCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	PlayerInputComponent->BindAction("IndexAnimation",EInputEvent::IE_Pressed, this, &ATeacherCharacter::IndexStart);
 	PlayerInputComponent->BindAction("IndexAnimation",EInputEvent::IE_Released, this, &ATeacherCharacter::IndexEnd);
+
+	
 }
 
 void ATeacherCharacter::MoveForward(float Amount)
@@ -94,13 +97,14 @@ void ATeacherCharacter::IndexStart()
 {
 	bIndexing=true;
 	
-	
 }
 
 void ATeacherCharacter::IndexEnd()
 {
 	bIndexing=false;
 }
+
+
 
 
 

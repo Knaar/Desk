@@ -48,4 +48,6 @@ public:
 	bool GetbIndexing(){return bIndexing;}
 
 	float PointerTraceLenght=15000.0f;
+
+	
 };
