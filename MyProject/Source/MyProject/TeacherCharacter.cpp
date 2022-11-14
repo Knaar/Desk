@@ -2,7 +2,7 @@
 
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/SpringArmComponent.h"
+
 
 ATeacherCharacter::ATeacherCharacter()
 {
