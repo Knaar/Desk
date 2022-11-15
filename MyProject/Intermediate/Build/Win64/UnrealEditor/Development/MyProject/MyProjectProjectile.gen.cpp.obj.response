@@ -257,6 +257,15 @@ E:\Unreal_5_Projects\Desk\MyProject\Intermediate\Build\Win64\UnrealEditor\Inc\My
 /I Runtime\AugmentedReality\Public
 /I ..\Intermediate\Build\Win64\UnrealEditor\Inc\MRMesh
 /I Runtime\MRMesh\Public
+/I ..\Intermediate\Build\Win64\UnrealEditor\Inc\MediaAssets
+/I Runtime\MediaAssets\Public
+/I Runtime\Media\Public
+/I ..\Intermediate\Build\Win64\UnrealEditor\Inc\MediaUtils
+/I Runtime\MediaUtils\Public
+/I Developer\DesktopPlatform\Public
+/I ..\Plugins\Media\ImgMedia\Intermediate\Build\Win64\UnrealEditor\Inc\ImgMedia
+/I ..\Plugins\Media\ImgMedia\Source
+/I ..\Plugins\Media\ImgMedia\Source\ImgMedia\Public
 /I ThirdParty\mimalloc\include
 /I ThirdParty\LibTiff\Source\Win64
 /I ThirdParty\LibTiff\Source
